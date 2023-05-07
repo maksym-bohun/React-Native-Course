@@ -1,10 +1,20 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  useWindowDimensions,
+} from "react-native";
 import Title from "../components/ui/Title";
 import Colors from "../constans/colors";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
+const deviceWidth = Dimensions.get("window").width;
 const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
-  return (
+  const { width, height } = useWindowDimensions();
+
+  let content = (
     <View style={styles.rootContainer}>
       <Title>GAME OVER</Title>
       <View style={styles.imageContainer}>
@@ -16,11 +26,35 @@ const GameOverScreen = ({ roundsNumber, userNumber, onRestart }) => {
       <Text style={styles.summaryText}>
         Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
         round to guess the number{" "}
-        <Text style={styles.highlight}>{userNumber}</Text>.
+        <Text style={styles.highlight}>{userNumber}</Text>
       </Text>
       <PrimaryButton onPress={onRestart}>Start New Game</PrimaryButton>
     </View>
   );
+
+  if (width > 500) {
+    content = (
+      <View style={[styles.rootContainer, styles.rootContainerWide]}>
+        <Title>GAME OVER</Title>
+        <View style={styles.imageContainerWide}>
+          <Image
+            source={require("./../assets/images/success.png")}
+            style={styles.image}
+          />
+        </View>
+        <Text style={styles.summaryText}>
+          Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
+          round to guess the number{" "}
+          <Text style={styles.highlight}>{userNumber}</Text>.
+        </Text>
+        <PrimaryButton onPress={onRestart} style={{ width: 180 }}>
+          Start New Game
+        </PrimaryButton>
+      </View>
+    );
+  }
+
+  return content;
 };
 
 const styles = StyleSheet.create({
@@ -31,11 +65,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: -70,
   },
+  rootContainerWide: { marginTop: 0 },
   imageContainer: {
-    width: 300,
-    height: 300,
+    width: deviceWidth < 400 ? 150 : 300,
+    height: deviceWidth < 400 ? 150 : 300,
     overflow: "hidden",
     margin: 36,
+    borderRadius: 200,
+    borderWidth: 3,
+    borderColor: Colors.primary800,
+  },
+  imageContainerWide: {
+    width: 180,
+    height: 180,
+    overflow: "hidden",
+    margin: 16,
     borderRadius: 200,
     borderWidth: 3,
     borderColor: Colors.primary800,

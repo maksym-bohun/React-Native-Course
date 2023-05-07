@@ -2,6 +2,7 @@ import { StyleSheet, View, ImageBackground, SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
@@ -61,16 +62,19 @@ export default function App() {
   }
 
   return (
-    <View style={{ backgroundColor: "#220212" }}>
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        resizeMode="cover"
-        style={styles.container}
-        imageStyle={{ opacity: 0.15 }}
-      >
-        <SafeAreaView style={styles.container}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </View>
+    <>
+      <StatusBar style="light" />
+      <View style={{ backgroundColor: "#220212" }}>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          resizeMode="cover"
+          style={styles.container}
+          imageStyle={{ opacity: 0.15 }}
+        >
+          <SafeAreaView style={styles.container}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </View>
+    </>
   );
 }
 
